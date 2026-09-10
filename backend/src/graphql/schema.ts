@@ -1,4 +1,7 @@
-export const typeDefs = `#graphql
+import { authResolvers } from '../modules/auth/auth.resolver.js'
+import { authTypeDefs } from '../modules/auth/auth.schema.js'
+
+const baseTypeDefs = `#graphql
   type Health {
     status: String!
     service: String!
@@ -7,9 +10,13 @@ export const typeDefs = `#graphql
   type Query {
     health: Health!
   }
+
+  type Mutation {
+    _empty: Boolean
+  }
 `
 
-export const resolvers = {
+const baseResolvers = {
   Query: {
     health: () => ({
       status: 'ok',
@@ -17,3 +24,6 @@ export const resolvers = {
     })
   }
 }
+
+export const typeDefs = [baseTypeDefs, authTypeDefs]
+export const resolvers = [baseResolvers, authResolvers]
