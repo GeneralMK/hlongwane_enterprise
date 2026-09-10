@@ -6,6 +6,7 @@ import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 
 import { env } from './config/env.js'
+import { createGraphQLContext } from './graphql/context.js'
 import { resolvers, typeDefs } from './graphql/schema.js'
 import { prisma } from './lib/prisma.js'
 
@@ -24,7 +25,8 @@ async function startServer() {
   app.use(
     cors({
       origin: env.FRONTEND_URL,
-      credentials: true
+      credentials: true,
+      allowHeaders: ['Content-Type', 'Authorization']
     })
   )
 
@@ -45,10 +47,7 @@ async function startServer() {
 
   app.use(
     koaMiddleware(apollo, {
-      context: async ({ ctx }) => ({
-        ctx,
-        prisma
-      })
+      context: async ({ ctx }) => createGraphQLContext(ctx)
     })
   )
 
