@@ -4,6 +4,7 @@
   "private": true,
   "description": "GraphQL backend for the Hlongwane Enterprise device commerce ecosystem",
   "main": "dist/server.js",
+  "packageManager": "yarn@1.22.22",
   "engines": {
     "node": ">=22"
   },
